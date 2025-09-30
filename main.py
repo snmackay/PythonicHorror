@@ -1,53 +1,76 @@
 import time
 import random
+import sys
 
-def slow_print(text, delay=0.05):
+#function slows down speed that text displays, serves in place of print()
+def slow_print(text, delay=0.02):
     for char in text:
         print(char, end='', flush=True)
         time.sleep(delay)
     print()
-
+    
+#Game State 1
 def intro():
     slow_print("You wake up in a dark, eerie forest.")
     slow_print("The moon barely lights the path ahead.")
     slow_print("You hear strange noises all around...")
     slow_print("Will you find a way out, or will the night consume you?")
     slow_print("")
-
-def choose_path():
     slow_print("You see two paths ahead:")
     slow_print("1. The narrow path into the dense trees.")
     slow_print("2. The faint trail towards a creepy old cabin.")
-    choice = input("Which path do you take? (1 or 2): ")
+    choice = input("Which path do you take? (1 or 2) ")
+
+    #sys.exit() allows for safe ending of program execution
+    if choice == "exit":
+        sys.exit("Thanks for playing!")
+
     while choice not in ['1', '2']:
         choice = input("Please choose 1 or 2: ")
-    return choice
+    
+    if choice == '1':
+        forest_path()
+    else:
+        cabin_path()
 
+#Game State 2A
 def forest_path():
     slow_print("\nYou step cautiously into the thick forest.")
     slow_print("The sounds get louder, almost like whispers.")
     slow_print("Suddenly, you reach a fork in the path:")
     slow_print("1. Follow the left path towards an eerie glowing pond.")
     slow_print("2. Follow the right path deeper into the shadowy woods.")
-    choice = input("Which way do you go? (1 or 2): ")
+    choice = input("Which way do you go? (1 or 2) ")
+
+     #sys.exit() allows for safe ending of program execution
+    if choice == "exit":
+        sys.exit("Thanks for playing!")
+
     while choice not in ['1', '2']:
         choice = input("Please choose 1 or 2: ")
 
     if choice == '1':
-        glowing_pond()
+        glowing_pond() #Game State 3AA 
     else:
-        deeper_forest()
+        deeper_forest() #Game State 3AB
 
+#Game State 3AA
 def glowing_pond():
     slow_print("\nYou approach the glowing pond.")
     slow_print("The water shimmers unnaturally with a faint blue light.")
     slow_print("You notice something shiny at the bottom.")
     slow_print("Do you try to reach into the water to grab it? (y/n)")
     choice = input("> ").lower()
+
+    #sys.exit() allows for safe ending of program execution
+    if choice == "exit":
+        sys.exit("Thanks for playing!")
+
     while choice not in ['y', 'n']:
         choice = input("Please enter y or n: ").lower()
 
-    if choice == 'y':
+    #Here we do not invoke a new game state; rather we just have different dialogue based on the y/n choice. We enter mysterious_ruins() regardless of player choice
+    if choice == 'y': 
         slow_print("You dip your hand into the cold water...")
         slow_print("Suddenly, hands grab your wrist from below!")
         slow_print("You struggle and break free, but the pond's glow dims.")
@@ -60,15 +83,21 @@ def glowing_pond():
         slow_print("You run before seeing what it was.")
         mysterious_ruins()
 
+#Game State 3AB
 def deeper_forest():
     slow_print("\nYou walk deeper into the shadows.")
     slow_print("The trees seem to close in around you.")
     slow_print("Suddenly, a large wolf blocks your path, eyes glowing!")
-    fight_or_flee = input("Do you fight (f) or flee (l)? ")
-    while fight_or_flee.lower() not in ['f', 'l']:
-        fight_or_flee = input("Please choose f or l: ")
+    choice = input("Do you fight (f) or flee (l)? ")
 
-    if fight_or_flee.lower() == 'f':
+    #sys.exit() allows for safe ending of program execution
+    if choice == "exit":
+        sys.exit("Thanks for playing!")
+
+    while choice.lower() not in ['f', 'l']:
+        choice = input("Please choose f or l: ")
+
+    if choice.lower() == 'f':
         slow_print("You ready yourself to fight the wolf.")
         if random.random() < 0.7:
             slow_print("You scare the wolf away with a loud shout!")
@@ -84,11 +113,15 @@ def deeper_forest():
         slow_print("You died. Game Over.")
         return
 
+#Game State 4ABA
 def mysterious_ruins():
     slow_print("\nYou come upon ancient ruins covered in moss.")
     slow_print("There’s an old stone door with a keyhole.")
     slow_print("Do you try to use the rusty key you found? (y/n)")
     choice = input("> ").lower()
+    #sys.exit() allows for safe ending of program execution
+    if choice == "exit":
+        sys.exit("Thanks for playing!")
     while choice not in ['y', 'n']:
         choice = input("Please enter y or n: ").lower()
 
@@ -103,12 +136,16 @@ def mysterious_ruins():
         slow_print("You are safe... for now.")
         slow_print("Thanks for playing!")
 
+#Game State 5ABAA
 def basement():
     slow_print("\nYou descend into the cold basement.")
     slow_print("A faint light flickers at the far end.")
     slow_print("You find a dusty journal on a pedestal.")
     slow_print("Do you read the journal? (y/n)")
     choice = input("> ").lower()
+    #sys.exit() allows for safe ending of program execution
+    if choice == "exit":
+        sys.exit("Thanks for playing!")
     while choice not in ['y', 'n']:
         choice = input("Please enter y or n: ").lower()
 
@@ -123,6 +160,7 @@ def basement():
         slow_print("You are trapped with the darkness.")
         slow_print("You died. Game Over.")
 
+#Game State 6ABAAA
 def puzzle_room():
     slow_print("\nAt the end of the basement, you find a locked box.")
     slow_print("There is a riddle inscribed on it:")
@@ -141,14 +179,19 @@ def puzzle_room():
         slow_print("The shadows close in around you.")
         slow_print("You died. Game Over.")
 
+
+#Game State 2B
 def cabin_path():
     slow_print("\nYou approach the creepy old cabin.")
     slow_print("The door creaks open by itself...")
-    enter = input("Do you enter? (y/n): ").lower()
-    while enter not in ['y', 'n']:
-        enter = input("Please enter y or n: ").lower()
+    choice = input("Do you enter? (y/n): ").lower()
+    #sys.exit() allows for safe ending of program execution
+    if choice == "exit":
+        sys.exit("Thanks for playing!")
+    while choice not in ['y', 'n']:
+        choice = input("Please enter y or n: ").lower()
 
-    if enter == 'y':
+    if choice == 'y':
         cabin_inside()
     else:
         slow_print("You decide not to enter.")
@@ -156,11 +199,15 @@ def cabin_path():
         slow_print("You run and find the edge of the forest. You are safe... for now.")
         slow_print("Thanks for playing!")
 
+#Game State 3BA
 def cabin_inside():
     slow_print("Inside, it's cold and dark.")
     slow_print("Suddenly, you hear footsteps behind you!")
     slow_print("You turn and see a shadowy figure.")
     action = input("Do you hide (h), confront (c), or run (r)? ").lower()
+    #sys.exit() allows for safe ending of program execution
+    if action == "exit":
+        sys.exit("Thanks for playing!")
     while action not in ['h', 'c', 'r']:
         action = input("Please choose h, c, or r: ").lower()
 
@@ -188,6 +235,7 @@ def cabin_inside():
         slow_print("You hear whispers growing louder...")
         slow_print("You died. Game Over.")
 
+#Game State 4BAA
 def secret_room():
     slow_print("\nYou enter a secret room filled with strange symbols and artifacts.")
     slow_print("On a pedestal lies an old box with a combination lock.")
@@ -214,13 +262,14 @@ def secret_room():
     slow_print("You are trapped in the cabin forever.")
     slow_print("Game Over.")
 
+#Main function. Prints welcome screen and queues intro() (Game State 1)
 def main():
+    slow_print("Welcome to Pythonic Horror!")
+    slow_print("At any time, type exit to quit.")
+    time.sleep(3)
+    
     intro()
-    choice = choose_path()
-    if choice == '1':
-        forest_path()
-    else:
-        cabin_path()
+    
 
 if __name__ == "__main__":
     main()
